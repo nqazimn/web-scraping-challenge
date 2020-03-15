@@ -106,3 +106,26 @@ def scrape_twitter():
         print("Weather Report not available.")
 
     return mars_weather
+
+
+def scrape_space_facts():
+    '''
+    Scrapes space-facts.com for facts about Mars and 
+    returns a table in HTML format
+    '''
+    tables = pd.read_html(url_dict["space-facts"])
+
+    # sleep for 10 sec while the page loads
+    time.sleep(10)
+
+    mars_table = tables[0]
+
+    try:
+        mars_table = mars_table.rename(columns={0: 'Parameter', 1: "Value"})
+        mars_table = mars_table.set_index('Parameter')
+    except:
+        print('Columns already renamed')
+
+    mars_table_html = mars_table.to_html()
+
+    return mars_table_html
