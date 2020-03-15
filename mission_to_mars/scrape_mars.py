@@ -76,3 +76,33 @@ def scrape_jpl():
     # browser.visit(featured_image_url)
 
     return featured_image_url
+
+
+def scrape_twitter():
+    '''
+    Scrapes twitter and returns latest weather report
+    '''
+    response = requests.get(url=url_dict["Twitter"])
+
+    # Wait for 20 sec while the page loads
+    time.sleep(20)
+
+    soup = bs(response.text, "html.parser")
+
+    # using re: Regular Expression matching (source:https://docs.python.org/3/library/re.html)
+    # since the weather reports always start with 'Insight sol' on the Twitter page
+
+    weather_reports = soup(text=re.compile(r'InSight sol'))
+
+    try:
+        # only select the latest weather report
+        mars_weather = str(weather_reports[0])
+
+        # Manipulate the string to return desired format
+        mars_weather = mars_weather[8:].capitalize().replace("\n", "; ")
+
+    except:
+        mars_weather = "N/A"
+        print("Weather Report not available.")
+
+    return mars_weather
