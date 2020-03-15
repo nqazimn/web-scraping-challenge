@@ -43,10 +43,36 @@ def scrape_nasa():
                          'description': news_description.strip()}
 
             mars_latest_news.append(news_dict)
+
         except AttributeError as e:
             print(e)
 
-    return news_dict
+    return mars_latest_news
 
 
 def scrape_jpl():
+    '''
+    Scrapes JPL page for latest featured image for Mars
+    Returns url to the high-res image
+    '''
+
+    # Initiate the browser and visit JPL page
+    browser = Browser('chrome', headless=False)
+    browser.visit(url_dict['JPL'])
+
+    # Wait for 20 sec while the page loads
+    time.sleep(20)
+
+    # scrape the page
+    html = browser.html
+    soup = bs(html, 'html.parser')
+    featured_image = soup.find("li", class_="slide").a['data-fancybox-href']
+
+    # create full-url to high-res image
+    featured_image_url = url_dict['JPL'].split(
+        '/spaceimages')[0]+featured_image
+
+    # sanity-check
+    # browser.visit(featured_image_url)
+
+    return featured_image_url
