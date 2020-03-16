@@ -100,7 +100,7 @@ def scrape_twitter():
         mars_weather = str(weather_reports[0])
 
         # Manipulate the string to return desired format
-        mars_weather = mars_weather[8:].capitalize().replace("\n", "; ")
+        mars_weather = mars_weather[8:].replace("\n", "; ")
 
     except:
         mars_weather = "N/A"
