@@ -32,3 +32,5 @@ re
 2. The code for the above functions was individually tested in a Jupyter notebook, ```mission_to_mars_scraper.ipynb```.
 
 3. The flask app used to serve the scraped results and the call the main ```scraper()``` function is included in ```app.py```.
+
+4. The screenshots of the app presented as a HTML page are included in _/mission_to_mars/screenshots/_.
