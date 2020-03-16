@@ -72,6 +72,7 @@ def scrape_jpl():
     featured_image_url = url_dict['JPL'].split(
         '/spaceimages')[0]+featured_image
 
+    browser.quit()
     # sanity-check
     # browser.visit(featured_image_url)
 
@@ -132,7 +133,10 @@ def scrape_space_facts():
 
 
 def scrape_astrogeology():
-
+    '''
+    Scrape astrogeology.com to extract high-res images 
+    of Mars's hemispheres. Using splinter in conjunction with BeautifulSoup
+    '''
     browser = Browser('chrome', headless=False)
     browser.visit(url_dict["astrogeology"])
 
@@ -158,4 +162,32 @@ def scrape_astrogeology():
         mars_hemisphere_image_urls.append({"title": item.h3.text.split(' Enhanced')[0],
                                            "img_url": image_url.li.a['href']})
 
+    browser.quit()
+
     return mars_hemisphere_image_urls
+
+
+def scrape():
+
+    news = scrape_nasa()
+    print('LOG: News scraped.')
+
+    url_to_featured_image = scrape_jpl()
+    print('LOG: Featured image scraped.')
+
+    weather = scrape_twitter()
+    print('LOG: Weather scraped.')
+
+    data_table = scrape_space_facts()
+    print('LOG: Data table scraped.')
+
+    url_to_hemisphere_images = scrape_astrogeology()
+    print('LOG: Hemisphere images scraped')
+
+    dict_of_scraped_stuff = {'news': news[0],
+                             'url_to_featured_image': url_to_featured_image,
+                             'weather': weather,
+                             'data_table': data_table,
+                             'url_to_hemisphere_images': url_to_hemisphere_images}
+
+    return dict_of_scraped_stuff
