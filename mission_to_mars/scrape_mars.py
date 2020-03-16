@@ -132,30 +132,6 @@ def scrape_space_facts():
 
 
 def scrape_astrogeology():
-    '''
-    scrapes astrogeology.com and returns a list of dictionaries 
-    containing links to images for Mars' four hemispheres
-    '''
-    response = requests.get(url_dict["astrogeology"])
-
-    # sleep for 10 sec while the page loads
-    time.sleep(10)
-
-    soup = bs(response.text, "html.parser")
-
-    items = soup.find_all("div", class_="item")
-
-    mars_hemisphere_image_urls = []
-
-    for item in items:
-        full_url = url_dict['astrogeology'].split('/search')[0]+item.a['href']
-        mars_hemisphere_image_urls.append({"title": item.a.h3.text.split(' Enhanced')[0],
-                                           "img_url": full_url})
-
-    return mars_hemisphere_image_urls
-
-
-def scrape_astrogeology_by_splinter():
 
     browser = Browser('chrome', headless=False)
     browser.visit(url_dict["astrogeology"])
